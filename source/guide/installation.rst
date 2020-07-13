@@ -1,3 +1,3 @@
 Installation
 ==========================
-to install///
+These scripts can be downloaded from
