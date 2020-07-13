@@ -1,9 +1,5 @@
 Transmon qubit
 ==========================
-.. figure:: ../../graphics/transmon.png
-   :align: center
-   :width: 4in
-
 The transmon qubit can be described in charge basis by the Hamiltonian
 
 .. math::
