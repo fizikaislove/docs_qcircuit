@@ -17,9 +17,10 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.imgmath',
+    # 'sphinx.ext.imgmath',
     'sphinx.ext.ifconfig',
-    'sensio.sphinx.configurationblock']
+    'sensio.sphinx.configurationblock',
+              ]
 
 source_suffix = '.rst'
 master_doc = 'index'

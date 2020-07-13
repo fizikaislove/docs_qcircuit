@@ -31,6 +31,7 @@
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -90,7 +91,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../examples_of_usage.html">Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="flux_qubit.html">Flux qubit</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Transmon qubit</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Transmon qubit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-circuit-topology">Defining circuit topology</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -166,12 +170,23 @@
 <a class="reference internal image-reference" href="../../_images/Transmon_qubit.png"><img alt="../../_images/Transmon_qubit.png" src="../../_images/Transmon_qubit.png" style="width: 4in;" /></a>
 </div>
 <p>The transmon qubit can be described in charge basis by the Hamiltonian</p>
-<div class="math">
-<p><img src="../../_images/math/e4750d3bf390ff694ffff1a1c642af0f7b07bb55.png" alt="H=4E_\text{C}(\hat{n}-n_g)^2+\frac{1}{2}E_\text{J}\sum_n(|n\rangle\langle n+1|+\text{h.c.}),"/></p>
-</div><p>and in phase basis by</p>
-<div class="math">
-<p><img src="../../_images/math/e4750d3bf390ff694ffff1a1c642af0f7b07bb55.png" alt="H=4E_\text{C}(\hat{n}-n_g)^2+\frac{1}{2}E_\text{J}\sum_n(|n\rangle\langle n+1|+\text{h.c.}),"/></p>
-</div></div>
+<div class="math notranslate nohighlight">
+\[H=4E_\text{C}(\hat{n}-n_g)^2+\frac{1}{2}E_\text{J}\sum_n(|n\rangle\langle n+1|+\text{h.c.}),\]</div>
+<p>and in phase basis by</p>
+<div class="math notranslate nohighlight">
+\[H=4E_\text{C}(\hat{n}-n_g)^2+\frac{1}{2}E_\text{J}\sum_n(|n\rangle\langle n+1|+\text{h.c.}),\]</div>
+<div class="section" id="defining-circuit-topology">
+<h2>Defining circuit topology<a class="headerlink" href="#defining-circuit-topology" title="Permalink to this headline">¶</a></h2>
+<p>The circuit construction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Transmon</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cq&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>These give</p>
+</div>
+</div>
 
 
            </div>
