@@ -1,4 +1,11 @@
-Acme project documentation
+Overview
 ==========================
 
-This is first page of Acme project documentation.
+This is the first page of QCircuit project documentation. The python based
+code for superconducting qubits development.
+
+
+.. toctree::
+   :maxdepth: 2
+
+   guide/installation.rst

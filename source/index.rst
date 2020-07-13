@@ -6,10 +6,6 @@ code for superconducting qubits development.
 
 
 .. toctree::
-    :hidden:
+   :maxdepth: 2
 
-    main_concepts
-    architecture
-    enterprise
-
-.. include:: /overview/map.rst.inc
+   guide/installation.rst
