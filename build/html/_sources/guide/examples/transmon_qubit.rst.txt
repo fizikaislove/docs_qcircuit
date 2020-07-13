@@ -1,3 +1,4 @@
 Transmon qubit
 ==========================
-The Hamiltonian
+The Hamiltonian of a transmon qubit is:
+:math:`\\alpha`
