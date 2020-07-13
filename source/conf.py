@@ -88,12 +88,12 @@ extensions = ['sphinx.ext.autodoc',
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = 'Acme Project'
-copyright = 'Acme'
-author = 'Acme'
+project = 'QCircuit'
+copyright = ''
+author = 'Ilia Besedin'
 
-version = ''
-release = ''
+version = '1'
+release = '13072020'
 
 exclude_patterns = ['_build']
 
@@ -108,10 +108,10 @@ html_theme_options = {
     'display_version': True,
 }
 
-html_context = {
-    'copyright_url': 'https://www.acme.com',
-    'current_year': datetime.utcnow().year
-}
+# html_context = {
+#     'copyright_url': 'https://www.acme.com',
+#     'current_year': datetime.utcnow().year
+# }
 
 def setup(app):
     app.add_stylesheet("css/style.css")
