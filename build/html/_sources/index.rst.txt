@@ -8,4 +8,5 @@ code for superconducting qubits development.
 .. toctree::
    :maxdepth: 2
 
-   guide/installation.rst
+   guide/installation
+   guide/examples_of_usage
