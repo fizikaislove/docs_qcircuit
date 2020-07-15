@@ -11,3 +11,11 @@ The Hamiltonian parameters are
     \Phi_x &= 2\pi\frac{\Phi}{\Phi_0} = \frac{2e \Phi}{\hbar} \text{  is an external applied flux, in units of radians.}
 
 To simplify these definitions, :math:`2e` and :math:`\hbar`` were equated to unity -
+
+.. math::
+    &I_C=E_{J} \text{ Josephson junction critical current = Josephson junction energy}\\
+    &С=\frac{1}{8 E_{C}} \text{  is a capacity,}\\
+    &L=\frac{1}{2 E_{L}} \text{  is an inductance,}\\
+    &\Phi_x = \Phi \text{  is an external applied flux, in units of radians}
+
+Which means if we want to specify the Josephson junction energy we should set critical current, but in GHz.
