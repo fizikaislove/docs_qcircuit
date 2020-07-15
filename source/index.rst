@@ -10,3 +10,4 @@ code for superconducting qubits development.
 
    guide/installation
    guide/examples_of_usage
+   guide/function_specification

@@ -27,4 +27,4 @@ The circuit construction::
    Transmon.add_element(qubit.JosephsonJunction('JJ2'), ['1', '2'])
    Transmon.add_element(qubit.Capacitance('Cq'), ['GND', '1'])
 
-These give
+ give

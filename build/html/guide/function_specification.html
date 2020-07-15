@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Examples &mdash; QCircuit 13072020 documentation</title>
+  <title>Functions &mdash; QCircuit 13072020 documentation</title>
   
 
   
@@ -38,8 +38,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Flux qubit" href="examples/flux_qubit.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
+    <link rel="prev" title="Transmon qubit" href="examples/transmon_qubit.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,12 +89,8 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/flux_qubit.html">Flux qubit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/transmon_qubit.html">Transmon qubit</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="function_specification.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples_of_usage.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Functions</a></li>
 </ul>
 
             
@@ -142,13 +137,13 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Examples</li>
+      <li>Functions</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/guide/examples_of_usage.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/guide/function_specification.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -161,18 +156,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>Here you can read the simplest examples of QCircuit usage</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/flux_qubit.html">Flux qubit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/transmon_qubit.html">Transmon qubit</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/transmon_qubit.html#defining-circuit-topology">Defining circuit topology</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  <div class="section" id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<p>Here you can read an explanation of the functions implemented in Circuit library.</p>
+<p>The Hamiltonian parameters are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}E_{J}&amp;=\frac{\hbar I_C}{2e} \text{  is a Josephson junction energy,}\\
+E_{C}&amp;=\frac{e^2}{2C} \text{  is a charge energy,}\\
+E_{L}&amp;=(\frac{\hbar}{2e})^2\frac{1}{2L} \text{  is an inductor energy,}\\
+\Phi_x &amp;= 2\pi\frac{\Phi}{\Phi_0} = \frac{2e \Phi}{\hbar} \text{  is an external applied flux, in units of radians.}\end{split}\]</div>
+<p>To simplify these definitions, <span class="math notranslate nohighlight">\(2e\)</span> and <span class="math notranslate nohighlight">\(\hbar\)</span> were equated to unity -</p>
 </div>
 
 
@@ -183,10 +176,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="examples/flux_qubit.html" class="btn btn-neutral float-right" title="Flux qubit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="examples/transmon_qubit.html" class="btn btn-neutral float-left" title="Transmon qubit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

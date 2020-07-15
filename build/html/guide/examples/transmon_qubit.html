@@ -38,6 +38,7 @@
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Functions" href="../function_specification.html" />
     <link rel="prev" title="Flux qubit" href="flux_qubit.html" /> 
 </head>
 
@@ -97,6 +98,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../function_specification.html">Functions</a></li>
 </ul>
 
             
@@ -178,13 +180,14 @@
 <div class="section" id="defining-circuit-topology">
 <h2>Defining circuit topology<a class="headerlink" href="#defining-circuit-topology" title="Permalink to this headline">¶</a></h2>
 <p>The circuit construction:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Transmon</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
-<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
-<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
-<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cq&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">Transmon</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+  <span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+  <span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
+  <span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cq&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+
+<span class="n">give</span>
 </pre></div>
 </div>
-<p>These give</p>
 </div>
 </div>
 
@@ -195,6 +198,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../function_specification.html" class="btn btn-neutral float-right" title="Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="flux_qubit.html" class="btn btn-neutral float-left" title="Flux qubit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
