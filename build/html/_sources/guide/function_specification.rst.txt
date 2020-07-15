@@ -2,20 +2,19 @@ Functions
 ==========================
 Here you can read an explanation of the functions implemented in Circuit library.
 
-The Hamiltonian parameters are
+The main class object which should be created at the beginning is a Circuit class::
 
-.. math::
-    E_{J}&=\frac{\hbar I_C}{2e} \text{  is a Josephson junction energy,}\\
-    E_{C}&=\frac{e^2}{2C} \text{  is a charge energy,}\\
-    E_{L}&=(\frac{\hbar}{2e})^2\frac{1}{2L} \text{  is an inductor energy,}\\
-    \Phi_x &= 2\pi\frac{\Phi}{\Phi_0} = \frac{2e \Phi}{\hbar} \text{  is an external applied flux, in units of radians.}
+    Qubit = QCircuit.Circuit()
 
-To simplify these definitions, :math:`2e` and :math:`\hbar`` were equated to unity -
+This class contains the following methods:
 
-.. math::
-    &I_C=E_{J} \text{ Josephson junction critical current = Josephson junction energy}\\
-    &С=\frac{1}{8 E_{C}} \text{  is a capacity,}\\
-    &L=\frac{1}{2 E_{L}} \text{  is an inductance,}\\
-    &\Phi_x = \Phi \text{  is an external applied flux, in units of radians}
+.. autosummary::
 
-Which means if we want to specify the Josephson junction energy we should set critical current, but in GHz.
+   circuit.Circuit
+
+
+The element classes:
+
+.. autosummary::
+
+   circuit.Capacitance

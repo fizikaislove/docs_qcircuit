@@ -7,7 +7,7 @@ from pygments.lexers.web import HtmlLexer
 from pygments.lexers.web import JsonLexer
 
 from datetime import datetime
-
+sys.path.insert(0,r"E:\Github\scqubits\scqubits\core")
 lexers['php'] = PhpLexer(startinline=True)
 lexers['php-annotations'] = PhpLexer(startinline=True)
 lexers['html'] = HtmlLexer(startinline=True)
@@ -18,6 +18,7 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     # 'sphinx.ext.imgmath',
+    'sphinx.ext.autosummary',
     'sphinx.ext.ifconfig',
     'sensio.sphinx.configurationblock',
               ]

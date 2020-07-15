@@ -38,6 +38,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Hamiltonian parameter definitions" href="definitions.html" />
     <link rel="prev" title="Transmon qubit" href="examples/transmon_qubit.html" /> 
 </head>
 
@@ -91,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_of_usage.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="definitions.html">The Hamiltonian parameter definitions</a></li>
 </ul>
 
             
@@ -159,19 +161,34 @@
   <div class="section" id="functions">
 <h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
 <p>Here you can read an explanation of the functions implemented in Circuit library.</p>
-<p>The Hamiltonian parameters are</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}E_{J}&amp;=\frac{\hbar I_C}{2e} \text{  is a Josephson junction energy,}\\
-E_{C}&amp;=\frac{e^2}{2C} \text{  is a charge energy,}\\
-E_{L}&amp;=(\frac{\hbar}{2e})^2\frac{1}{2L} \text{  is an inductor energy,}\\
-\Phi_x &amp;= 2\pi\frac{\Phi}{\Phi_0} = \frac{2e \Phi}{\hbar} \text{  is an external applied flux, in units of radians.}\end{split}\]</div>
-<p>To simplify these definitions, <span class="math notranslate nohighlight">\(2e\)</span> and <span class="math notranslate nohighlight">\(\hbar\)</span> were equated to unity -</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}&amp;I_C=E_{J} \text{ Josephson junction critical current = Josephson junction energy}\\
-&amp;С=\frac{1}{8 E_{C}} \text{  is a capacity,}\\
-&amp;L=\frac{1}{2 E_{L}} \text{  is an inductance,}\\
-&amp;\Phi_x = \Phi \text{  is an external applied flux, in units of radians}\end{split}\]</div>
-<p>Which means if we want to specify the Josephson junction energy we should set critical current, but in GHz.</p>
+<p>The main class object which should be created at the beginning is a Circuit class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Qubit</span> <span class="o">=</span> <span class="n">QCircuit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This class contains the following methods:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">circuit.Circuit</span></code>([tolerance])</td>
+<td>The class containing references to nodes, elements, variables, variable-to-node mappings.</td>
+</tr>
+</tbody>
+</table>
+<p>The element classes:</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">circuit.Capacitance</span></code>(name[,&nbsp;capacitance])</td>
+<td>Circuit element representing a capacitor.</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
@@ -181,6 +198,8 @@ E_{L}&amp;=(\frac{\hbar}{2e})^2\frac{1}{2L} \text{  is an inductor energy,}\\
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="definitions.html" class="btn btn-neutral float-right" title="The Hamiltonian parameter definitions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="examples/transmon_qubit.html" class="btn btn-neutral float-left" title="Transmon qubit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
