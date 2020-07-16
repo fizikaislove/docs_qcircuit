@@ -14,6 +14,7 @@ This class contains the following methods:
 .. autoautosummary:: circuit.Circuit
     :methods:
 
+just to check that it works
 
 The element classes:
 
