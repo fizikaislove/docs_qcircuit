@@ -2,3 +2,4 @@ sphinx==2.3.1
 sphinx_rtd_theme
 autodoc
 docutils
+git+https://github.com/fabpot/sphinx-php.git
