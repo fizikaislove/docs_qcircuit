@@ -3,5 +3,4 @@ sphinx_rtd_theme>=0.3.1,<1.0
 autodoc
 docutils
 git+https://github.com/fabpot/sphinx-php.git
-sys
 os
