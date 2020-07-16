@@ -8,9 +8,11 @@ The main class object which should be created at the beginning is a Circuit clas
 
 This class contains the following methods:
 
-.. autosummary::
 
-   circuit.Circuit
+.. rubric:: Methods
+
+.. autoautosummary:: circuit.Circuit
+    :methods:
 
 
 The element classes:

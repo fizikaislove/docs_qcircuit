@@ -1,0 +1,77 @@
+circuit.Circuit
+===============
+
+.. currentmodule:: circuit
+
+.. autoclass:: Circuit
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Circuit.__init__
+      ~Circuit.add_element
+      ~Circuit.add_variable
+      ~Circuit.broadcast
+      ~Circuit.calculate_charge_potential
+      ~Circuit.calculate_ndiagonal_hamiltonian
+      ~Circuit.calculate_phase_potential
+      ~Circuit.calculate_potentials
+      ~Circuit.capacitance_matrix
+      ~Circuit.capacitance_matrix_legendre_transform
+      ~Circuit.capacitance_matrix_variables
+      ~Circuit.charge_operator
+      ~Circuit.charge_operator_action
+      ~Circuit.cos_phi_operator
+      ~Circuit.create
+      ~Circuit.create_charge_grid
+      ~Circuit.create_phase_grid
+      ~Circuit.default_params
+      ~Circuit.diagonalize_phase
+      ~Circuit.eigensys
+      ~Circuit.eigenvals
+      ~Circuit.exp_i_phi_operator
+      ~Circuit.find_element
+      ~Circuit.find_variable
+      ~Circuit.fit_params
+      ~Circuit.get_matelements_vs_paramvals
+      ~Circuit.get_spectrum_vs_paramvals
+      ~Circuit.grid_shape
+      ~Circuit.hamiltonian
+      ~Circuit.hamiltonian_phase_action
+      ~Circuit.hilbertdim
+      ~Circuit.map_nodes_linear
+      ~Circuit.matrixelement_table
+      ~Circuit.ndiagonal_operator_action
+      ~Circuit.nonfit_params
+      ~Circuit.operator_action_phase
+      ~Circuit.operator_matrix_elements
+      ~Circuit.phase_operator
+      ~Circuit.phase_operator_action
+      ~Circuit.plot_evals_vs_paramvals
+      ~Circuit.plot_matelem_vs_paramvals
+      ~Circuit.plot_matrixelements
+      ~Circuit.potential
+      ~Circuit.receive
+      ~Circuit.set_params
+      ~Circuit.sin_phi_operator
+      ~Circuit.symbolic_hamiltonian
+      ~Circuit.symbolic_lagrangian
+      ~Circuit.wave_function_charge
+      ~Circuit.widget
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Circuit.subclasses
+   
+   

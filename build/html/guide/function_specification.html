@@ -166,14 +166,159 @@
 </pre></div>
 </div>
 <p>This class contains the following methods:</p>
+<p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">circuit.Circuit</span></code>([tolerance])</td>
-<td>The class containing references to nodes, elements, variables, variable-to-node mappings.</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_element</span></code>(element,&nbsp;node_names)</td>
+<td>Connect an element to the circuit.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_variable</span></code>(variable)</td>
+<td>Add variable to circuit.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">broadcast</span></code>(event,&nbsp;**kwargs)</td>
+<td>Request a broadcast from CENTRAL_DISPATCH reporting <cite>event</cite>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_charge_potential</span></code>()</td>
+<td>Calculates the potential landspace of the circuit charge-dependent energy in charge representation.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_ndiagonal_hamiltonian</span></code>(d1scheme,&nbsp;…)</td>
+<td>Calculates the hamiltonian in phase representation in n-diagonal form :param d1scheme: finite difference scheme for first order derivatives :param d2scheme: finite difference scheme for second order derivatives :returns: the m-ndiagonal kinetic operator</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_phase_potential</span></code>()</td>
+<td>Calculates the potential landspace of the circuit phase-dependent energy in phase representation.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_potentials</span></code>()</td>
+<td>Calculate potentials for Fourier-based hamiltonian action.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">capacitance_matrix</span></code>([symbolic])</td>
+<td>Calculates the linear capacitance matrix of the circuit with respect  to the circuit nodes from the capacitances between them.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">capacitance_matrix_legendre_transform</span></code>([symbolic])</td>
+<td>Calculates the principle pivot transform of the capacitance matrix in variable representation with respect to “variables” as opposed to “parameters” for the Legendre transform</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">capacitance_matrix_variables</span></code>([symbolic])</td>
+<td>Calculates the capacitance matrix for the energy term of the qubit Lagrangian in the variable respresentation.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">charge_operator</span></code>([index])</td>
+<td>Returns</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">charge_operator_action</span></code>(state_vector[,&nbsp;index])</td>
+<td>Returns</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">cos_phi_operator</span></code>([index])</td>
+<td>Returns</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">create</span></code>()</td>
+<td>Use ipywidgets to create a new class instance</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_charge_grid</span></code>()</td>
+<td>Creates a n-d grid of the charge variables, where n is the number of variables in the circuit, on which the circuit wavefunction, when transformed into charge representation, depends.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_phase_grid</span></code>()</td>
+<td>Creates a n-d grid of the phase variables, where n is the number of variables in the circuit, on which the circuit wavefunction depends.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_params</span></code>()</td>
+<td>Return dictionary with default parameter values for initialization of class instance</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">diagonalize_phase</span></code>([num_states,&nbsp;use_sparse,&nbsp;…])</td>
+<td>Performs sparse diagonalization of the circuit hamiltonian.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">eigensys</span></code>([evals_count,&nbsp;filename])</td>
+<td>Calculates eigenvalues and corresponding eigenvectors using <cite>scipy.linalg.eigh</cite>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">eigenvals</span></code>([evals_count,&nbsp;filename])</td>
+<td>Calculates eigenvalues using <cite>scipy.linalg.eigh</cite>, returns numpy array of eigenvalues.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">exp_i_phi_operator</span></code>([index])</td>
+<td>Returns</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_element</span></code>(element_name)</td>
+<td>Find an element inside the circuit with the specified name.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_variable</span></code>(variable_name)</td>
+<td>Find a variable of the circuit with the specified name.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_params</span></code>()</td>
+<td>Return list of initialization parameter names that are possible fit parameters</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_matelements_vs_paramvals</span></code>(operator,&nbsp;…)</td>
+<td>Calculates matrix elements for a varying system parameter, given an array of parameter values.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spectrum_vs_paramvals</span></code>(param_name,&nbsp;param_vals)</td>
+<td>Calculates eigenvalues/eigenstates for a varying system parameter, given an array of parameter values.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">grid_shape</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">hamiltonian</span></code>()</td>
+<td>Returns Hamiltonian in charge basis</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">hamiltonian_phase_action</span></code>(state_vector)</td>
+<td>Implements the action of the hamiltonian on the state vector describing the system in phase representation.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">hilbertdim</span></code>()</td>
+<td>Returns Hilbert space dimension</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_nodes_linear</span></code>(node_names,&nbsp;variable_names,&nbsp;…)</td>
+<td>Sets the value of node phases (and, respectively, their conjugate charges) as a linear combination of the circuit variables.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">matrixelement_table</span></code>(operator[,&nbsp;evecs,&nbsp;…])</td>
+<td>Returns table of matrix elements for <cite>operator</cite> with respect to the eigenstates of the qubit.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndiagonal_operator_action</span></code>(psi)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonfit_params</span></code>()</td>
+<td>Return list of initialization parameter names that are not treated as fit parameters</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">operator_action_phase</span></code>(operator,&nbsp;state_vector)</td>
+<td>Returns</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">operator_matrix_elements</span></code>(operator,&nbsp;…)</td>
+<td>Returns</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_operator</span></code>([index])</td>
+<td>Returns</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_operator_action</span></code>(state_vector[,&nbsp;index])</td>
+<td>Returns</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_evals_vs_paramvals</span></code>(param_name,&nbsp;param_vals)</td>
+<td>Generates a simple plot of a set of eigenvalues as a function of one parameter.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_matelem_vs_paramvals</span></code>(operator,&nbsp;…[,&nbsp;…])</td>
+<td>Generates a simple plot of a set of eigenvalues as a function of one parameter.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_matrixelements</span></code>(operator[,&nbsp;evecs,&nbsp;…])</td>
+<td>Plots matrix elements for <cite>operator</cite>, given as a string referring to a class method that returns an operator matrix.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">potential</span></code>(*args)</td>
+<td>Circuit phase-basis potential evaluated at <cite>*args</cite>, in order of <cite>variables</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">receive</span></code>(event,&nbsp;sender,&nbsp;**kwargs)</td>
+<td>Receive a message from CENTRAL_DISPATCH and initiate action on it.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**kwargs)</td>
+<td>Set new parameters through the provided dictionary.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">sin_phi_operator</span></code>([index])</td>
+<td>Returns</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">symbolic_hamiltonian</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">symbolic_lagrangian</span></code>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave_function_charge</span></code>(state_vector,&nbsp;index)</td>
+<td>Returns</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">widget</span></code>([params])</td>
+<td>Use ipywidgets to modify parameters of class instance</td>
 </tr>
 </tbody>
 </table>
