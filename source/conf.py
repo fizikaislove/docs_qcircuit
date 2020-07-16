@@ -10,10 +10,10 @@ from pygments.lexers.web import JsonLexer
 
 from datetime import datetime
 sys.path.insert(0, os.path.abspath("../"))
-lexers['php'] = PhpLexer(startinline=True)
-lexers['php-annotations'] = PhpLexer(startinline=True)
-lexers['html'] = HtmlLexer(startinline=True)
-lexers['json'] = JsonLexer(startinline=True)
+# lexers['php'] = PhpLexer(startinline=True)
+# lexers['php-annotations'] = PhpLexer(startinline=True)
+# lexers['html'] = HtmlLexer(startinline=True)
+# lexers['json'] = JsonLexer(startinline=True)
 
 extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.doctest',
