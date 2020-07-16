@@ -23,7 +23,8 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.ifconfig',
     'sensio.sphinx.configurationblock',
               ]
-# autosummary_generate = True
+autosummary_generate = False
+autosummary = []
 source_suffix = '.rst'
 master_doc = 'index'
 
