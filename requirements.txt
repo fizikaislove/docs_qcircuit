@@ -2,6 +2,6 @@ sphinx>=1.7.4,<2.0
 sphinx_rtd_theme>=0.3.1,<1.0
 autodoc
 docutils
+git+https://github.com/fabpot/sphinx-php.git
 sys
 os
-git+https://github.com/fabpot/sphinx-php.git
