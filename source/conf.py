@@ -57,6 +57,8 @@ from sphinx.ext.autosummary import get_documenter
 from docutils.parsers.rst import directives
 from sphinx.util.inspect import safe_getattr
 
+autodoc_default_options = {'members': True, 'inherited-members': True}
+autodoc_mock_imports = ['qutip', 'pytest', 'ipywidgets', 'IPython', 'tqdm']
 
 
 class AutoAutoSummary(Autosummary):
