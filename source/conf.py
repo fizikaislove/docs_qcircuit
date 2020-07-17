@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.abspath("../"))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
+    'sphinx_autopackagesummary'
               ]
 # autosummary_generate = False
 # autosummary = []
@@ -24,6 +25,7 @@ version = '1'
 release = '13072020'
 
 exclude_patterns = ['_build']
+add_function_parentheses = False
 
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
