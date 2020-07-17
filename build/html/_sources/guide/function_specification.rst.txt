@@ -15,7 +15,16 @@ just to check that it works
 
 The element classes:
 
-.. autosummary::
+.. autoclass:: circuit.Variable
+   :members:
+   :undoc-members:
 
-    circuit.CircuitNode
-    circuit.Variable
+    .. rubric:: Methods
+
+    .. autoautosummary:: circuit.Variable
+        :methods:
+
+    .. rubric:: Attributes
+
+    .. autoautosummary:: circuit.Variable
+        :attributes:
