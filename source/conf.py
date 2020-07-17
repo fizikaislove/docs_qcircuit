@@ -4,8 +4,7 @@ import sphinx_rtd_theme
 
 from datetime import datetime
 sys.path.insert(0, os.path.abspath('../'))
-cmd = "echo '{}' | iconv ...".format(os.path.abspath('../'))
-os.system(cmd)
+print(format(os.path.abspath('../')))
 # sys.path.append(os.path.join(os.path.dirname(__name__), '..'))
 # lexers['php'] = PhpLexer(startinline=True)
 
