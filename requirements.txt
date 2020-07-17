@@ -5,3 +5,4 @@ numpy>=1.14.2
 scipy>=1.1.0
 sympy
 abcpy
+numpy
