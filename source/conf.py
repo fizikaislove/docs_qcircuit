@@ -3,7 +3,7 @@ import sphinx_rtd_theme
 
 
 from datetime import datetime
-sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('./'))
 # print(format(os.path.abspath('../')))
 # print(os.path.abspath('../'))
 # sys.path.append(os.path.join(os.path.
