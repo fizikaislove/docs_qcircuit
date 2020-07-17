@@ -6,4 +6,4 @@ docutils
 numpy
 sympy
 scipy
-abc
+abcpy
