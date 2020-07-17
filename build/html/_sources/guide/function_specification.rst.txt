@@ -15,6 +15,6 @@ just to check that it works
 
 The element classes:
 
-.. autosummary::
+.. currentmodule:: circuit
 
-   circuit.Capacitance
+.. autoclass:: Capacitance

@@ -26,6 +26,7 @@ release = '13072020'
 
 exclude_patterns = ['_build']
 add_function_parentheses = False
+autosummary_generate = True
 
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
