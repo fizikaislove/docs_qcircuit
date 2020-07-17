@@ -1,4 +1,4 @@
-sphinx==3.1.2
+-e git://github.com/sphinx-doc/sphinx.git@stable#egg=Sphinx-origin_stable
 sphinx_rtd_theme
 autodoc
 docutils
