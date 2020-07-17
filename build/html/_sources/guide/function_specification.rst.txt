@@ -17,4 +17,4 @@ The element classes:
 
 .. autosummary::
 
-    circuit.Circuit
+    circuit.CircuitNode
