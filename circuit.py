@@ -3,8 +3,8 @@
 # """
 #
 import numpy as np
-# import sympy
-# from scipy.sparse.linalg import *
+import sympy
+from scipy.sparse.linalg import *
 # from abc import ABCMeta
 # from abc import abstractmethod
 #
