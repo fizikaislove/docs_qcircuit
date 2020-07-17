@@ -17,14 +17,3 @@ The element classes:
 
 .. autoclass:: circuit.Variable
    :members:
-   :undoc-members:
-
-    .. rubric:: Methods
-
-    .. autoautosummary:: circuit.Variable
-        :methods:
-
-    .. rubric:: Attributes
-
-    .. autoautosummary:: circuit.Variable
-        :attributes:
