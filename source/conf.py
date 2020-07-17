@@ -91,7 +91,11 @@ html_theme_options = {
 #                 self.content = ["~%s.%s" % (clazz, attrib) for attrib in attribs if not attrib.startswith('_')]
 #         finally:
 #             return super(AutoAutoSummary, self).run()
-
+html_context = {
+    'css_files': [
+        '_static/theme_overrides.css',  # override wide tables in RTD theme
+        ],
+     }
 def setup(app):
     app.add_css_file("css/style.css")
     # app.add_directive('autoautosummary', AutoAutoSummary)

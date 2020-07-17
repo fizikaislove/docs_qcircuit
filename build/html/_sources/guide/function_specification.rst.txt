@@ -17,4 +17,4 @@ The element classes:
 
 .. currentmodule:: circuit
 
-.. autoclass:: Capacitance
+.. autosummary:: Circuit
