@@ -15,4 +15,6 @@ just to check that it works
 
 The element classes:
 
+.. autosummary::
 
+    circuit.Circuit
