@@ -2,7 +2,7 @@
 # A simple Python module to obtain energy levels of superconducting qubits by sparse Hamiltonian diagonalization.
 # """
 #
-# import numpy as np
+import numpy as np
 # import sympy
 # from scipy.sparse.linalg import *
 # from abc import ABCMeta
@@ -25,62 +25,62 @@ class CircuitNode:
         self.name = name
 #
 #
-# class Variable:
-#     """
-#     Represents a variable of the circuit wavefunction or an constant external bias flux or voltage.
-#     """
-#
-#     def __init__(self, name):
-#         self.variable_type = 'parameter'
-#         self.phase_grid = np.asarray([0])
-#         self.charge_grid = np.asarray([0])
-#         self.phase_step = np.inf
-#         self.charge_step = np.inf
-#         self.nodeNo = 1
-#         self.name = name
-#
-#     def create_grid(self, nodeNo, phase_periods, centre=0):
-#         """
-#         Creates a discrete grid for wavefunction variables.
-#         :param nodeNo: number of discrete points on the grid
-#         :param phase_periods: number of 2pi intervals in the grid
-#         """
-#         self.variable_type = 'variable'
-#         min_node = np.round(-nodeNo/2)
-#         max_node = np.round(nodeNo/2)
-#         self.phase_grid = np.linspace(-np.pi*phase_periods+centre, np.pi*phase_periods+centre, nodeNo, endpoint=False)
-#         self.charge_grid = np.linspace(min_node/phase_periods, max_node/phase_periods, nodeNo, endpoint=False)
-#         self.phase_step = 2*np.pi*phase_periods/nodeNo
-#         self.charge_step = 1.0/phase_periods
-#         self.nodeNo = nodeNo
-#
-#     def set_parameter(self, phase_value, voltage_value):
-#         """
-#         Sets an external flux and/or charge bias.
-#         :param phase_value: external flux bias in flux quanta/(2pi)
-#         :param charge_value: external charge bias in cooper pairs
-#         """
-#         self.variable_type = 'parameter'
-#         self.phase_grid = np.asarray([phase_value])
-#         self.charge_grid = np.asarray([voltage_value])
-#         self.phase_step = np.inf
-#         self.charge_step = np.inf
-#         self.nodeNo = 1
-#
-#     def get_phase_grid(self):
-#         return self.phase_grid
-#
-#     def get_charge_grid(self):
-#         return self.charge_grid
-#
-#     def get_phase_step(self):
-#         return self.phase_step
-#
-#     def get_charge_step(self):
-#         return self.charge_step
-#
-#     def get_nodeNo(self):
-#         return self.nodeNo
+class Variable:
+    """
+    Represents a variable of the circuit wavefunction or an constant external bias flux or voltage.
+    """
+
+    def __init__(self, name):
+        self.variable_type = 'parameter'
+        self.phase_grid = np.asarray([0])
+        self.charge_grid = np.asarray([0])
+        self.phase_step = np.inf
+        self.charge_step = np.inf
+        self.nodeNo = 1
+        self.name = name
+
+    def create_grid(self, nodeNo, phase_periods, centre=0):
+        """
+        Creates a discrete grid for wavefunction variables.
+        :param nodeNo: number of discrete points on the grid
+        :param phase_periods: number of 2pi intervals in the grid
+        """
+        self.variable_type = 'variable'
+        min_node = np.round(-nodeNo/2)
+        max_node = np.round(nodeNo/2)
+        self.phase_grid = np.linspace(-np.pi*phase_periods+centre, np.pi*phase_periods+centre, nodeNo, endpoint=False)
+        self.charge_grid = np.linspace(min_node/phase_periods, max_node/phase_periods, nodeNo, endpoint=False)
+        self.phase_step = 2*np.pi*phase_periods/nodeNo
+        self.charge_step = 1.0/phase_periods
+        self.nodeNo = nodeNo
+
+    def set_parameter(self, phase_value, voltage_value):
+        """
+        Sets an external flux and/or charge bias.
+        :param phase_value: external flux bias in flux quanta/(2pi)
+        :param charge_value: external charge bias in cooper pairs
+        """
+        self.variable_type = 'parameter'
+        self.phase_grid = np.asarray([phase_value])
+        self.charge_grid = np.asarray([voltage_value])
+        self.phase_step = np.inf
+        self.charge_step = np.inf
+        self.nodeNo = 1
+
+    def get_phase_grid(self):
+        return self.phase_grid
+
+    def get_charge_grid(self):
+        return self.charge_grid
+
+    def get_phase_step(self):
+        return self.phase_step
+
+    def get_charge_step(self):
+        return self.charge_step
+
+    def get_nodeNo(self):
+        return self.nodeNo
 #
 #
 # class CircuitElement:

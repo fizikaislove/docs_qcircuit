@@ -18,3 +18,4 @@ The element classes:
 .. autosummary::
 
     circuit.CircuitNode
+    circuit.Variable
