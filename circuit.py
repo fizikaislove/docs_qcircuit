@@ -5,8 +5,8 @@
 import numpy as np
 import sympy
 from scipy.sparse.linalg import *
-# from abc import ABCMeta
-# from abc import abstractmethod
+from abc import ABCMeta
+from abc import abstractmethod
 #
 # import scqubits.core.constants as constants
 # import scqubits.core.descriptors as descriptors
