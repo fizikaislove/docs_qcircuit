@@ -15,3 +15,5 @@ just to check that it works
 
 The element classes:
 
+.. autoclass:: circuit.Variable
+   :members:
