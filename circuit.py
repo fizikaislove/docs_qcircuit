@@ -11,7 +11,7 @@ from abc import abstractmethod
 import scqubits.core.constants as constants
 import scqubits.core.descriptors as descriptors
 import scqubits.core.discretization as discretization
-import scqubits.core.qubit_base as base
+# import scqubits.core.qubit_base as base
 import scqubits.core.storage as storage
 import scqubits.io_utils.fileio_serializers as serializers
 import scqubits.utils.plot_defaults as defaults
@@ -230,7 +230,7 @@ class LagrangianCurrentSource(CircuitElement):
         return False
 
     
-class Circuit(base.QubitBaseClass):
+class Circuit():
     """
     The containing references to nodes, elements, variables, \\
     variable-to-node mappings, in addition it contains all methods
