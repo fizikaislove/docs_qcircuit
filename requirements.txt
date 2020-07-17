@@ -3,5 +3,4 @@ sphinx_rtd_theme
 autodoc
 sympy
 scipy
-abcpy
 
