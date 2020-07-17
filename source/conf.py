@@ -10,7 +10,6 @@ sys.path.append(os.path.join(os.path.dirname(__name__), '..'))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
-    'sphinx_autopackagesummary'
               ]
 # autosummary_generate = False
 # autosummary = []

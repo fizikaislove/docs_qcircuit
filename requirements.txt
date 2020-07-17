@@ -1,9 +1,7 @@
 sphinx==2.3.1
 sphinx_rtd_theme
 autodoc
-sphinx-autopackagesummary
-docutils
-numpy
 sympy
-scipy
 abcpy
+numpy>=1.14.2
+scipy>=1.1.0
