@@ -31,6 +31,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
+        <script src="../_static/collapse_admonitions.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -162,11 +163,10 @@
 <h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
 <p>Here you can read an explanation of the functions implemented in Circuit library.</p>
 <p>The main class object which should be created at the beginning is a Circuit class:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Qubit</span> <span class="o">=</span> <span class="n">QCircuit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Node1</span> <span class="o">=</span> <span class="n">QCircuit</span><span class="o">.</span><span class="n">Variable</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>This class contains the following methods:</p>
-<p>just to check that it works</p>
+<p>If return values aren’t specified then nothing is returned.</p>
 <p>The element classes:</p>
 <dl class="py class">
 <dt id="circuit.Variable">
@@ -175,17 +175,30 @@
 <dl class="py method">
 <dt id="circuit.Variable.create_grid">
 <code class="sig-name descname">create_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nodeNo</span></em>, <em class="sig-param"><span class="n">phase_periods</span></em>, <em class="sig-param"><span class="n">centre</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#circuit.Variable.create_grid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a discrete grid for wavefunction variables.
-:param nodeNo: number of discrete points on the grid
-:param phase_periods: number of 2pi intervals in the grid</p>
+<dd><p>Creates a discrete grid for wavefunction variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodeNo</strong> (<em>int.</em>) – number of discrete points on the grid.</p></li>
+<li><p><strong>phase_periods</strong> (<em>float.</em>) – number of <span class="math notranslate nohighlight">\(2\pi\)</span> intervals in the grid.</p></li>
+<li><p><strong>centre</strong> (<em>float.</em>) – additional flux offset.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="circuit.Variable.set_parameter">
-<code class="sig-name descname">set_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phase_value</span></em>, <em class="sig-param"><span class="n">voltage_value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#circuit.Variable.set_parameter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets an external flux and/or charge bias.
-:param phase_value: external flux bias in flux quanta/(2pi)
-:param charge_value: external charge bias in cooper pairs</p>
+<code class="sig-name descname">set_parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phase_value</span></em>, <em class="sig-param"><span class="n">charge_value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#circuit.Variable.set_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an external flux and/or charge bias.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phase_value</strong> (<em>float.</em>) – external flux bias in <span class="math notranslate nohighlight">\(\Phi_{0}/2\pi\)</span>.</p></li>
+<li><p><strong>charge_value</strong> (<em>float.</em>) – external charge bias in cooper pairs</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

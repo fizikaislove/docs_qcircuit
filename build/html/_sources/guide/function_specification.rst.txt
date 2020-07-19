@@ -4,16 +4,12 @@ Here you can read an explanation of the functions implemented in Circuit library
 
 The main class object which should be created at the beginning is a Circuit class::
 
-    Qubit = QCircuit.Circuit()
+    Node1 = QCircuit.Variable()
 
-This class contains the following methods:
-
-
-
-
-just to check that it works
+If return values aren't specified then nothing is returned.
 
 The element classes:
 
 .. autoclass:: circuit.Variable
-   :members:
+    :members:
+

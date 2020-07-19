@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
+    'sphinx.ext.autosummary'
               ]
 # autosummary_generate = False
 # autosummary = []
@@ -73,7 +73,7 @@ class AutoAutoSummary(Autosummary):
         items = []
         for name in dir(obj):
             try:
-                documenter = get_documenter(safe_getattr(obj, name), obj)
+                documenter = get_documenter(obj, safe_getattr(obj, name))
             except AttributeError:
                 continue
             if documenter.objtype == typ:

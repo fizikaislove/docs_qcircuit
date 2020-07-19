@@ -41,9 +41,14 @@ class Variable:
 
     def create_grid(self, nodeNo, phase_periods, centre=0):
         """
-        Creates a discrete grid for wavefunction variables.
-        :param nodeNo: number of discrete points on the grid
-        :param phase_periods: number of 2pi intervals in the grid
+            Creates a discrete grid for wavefunction variables.
+
+            :param nodeNo: number of discrete points on the grid.
+            :type nodeNo: int.
+            :param phase_periods: number of :math:`2\pi` intervals in the grid.
+            :type phase_periods: float.
+            :param centre: additional flux offset.
+            :type centre: float.
         """
         self.variable_type = 'variable'
         min_node = np.round(-nodeNo/2)
@@ -54,15 +59,18 @@ class Variable:
         self.charge_step = 1.0/phase_periods
         self.nodeNo = nodeNo
 
-    def set_parameter(self, phase_value, voltage_value):
+    def set_parameter(self, phase_value, charge_value):
         """
-        Sets an external flux and/or charge bias.
-        :param phase_value: external flux bias in flux quanta/(2pi)
-        :param charge_value: external charge bias in cooper pairs
+             Sets an external flux and/or charge bias.
+
+             :param phase_value: external flux bias in :math:`\Phi_{0}/2\pi`.
+             :type phase_value: float.
+             :param charge_value: external charge bias in cooper pairs
+             :type charge_value: float.
         """
         self.variable_type = 'parameter'
         self.phase_grid = np.asarray([phase_value])
-        self.charge_grid = np.asarray([voltage_value])
+        self.charge_grid = np.asarray([charge_value])
         self.phase_step = np.inf
         self.charge_step = np.inf
         self.nodeNo = 1
