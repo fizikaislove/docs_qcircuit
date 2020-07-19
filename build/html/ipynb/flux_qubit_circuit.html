@@ -1,0 +1,2041 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Defining circuit topology &mdash; QCircuit 13072020 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="The Hamiltonian parameter definitions" href="../guide/definitions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> QCircuit
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../guide/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/examples_of_usage.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/function_specification.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guide/definitions.html">The Hamiltonian parameter definitions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Defining circuit topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Parametrizing-Hamiltonian">Parametrizing Hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Mapping-nodal-phases-to-variables">Mapping nodal phases to variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Separating-variables-into-external-controls-and-degrees-of-freedom">Separating variables into external controls and degrees of freedom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Printing-symbolic-Hamiltonian-(using-sympy)">Printing symbolic Hamiltonian (using sympy)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#capacitance-matrix-in-terms-of-the-nodal-parameterization">capacitance matrix in terms of the nodal parameterization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Legendre-transform-of-the-capacitance-matrix-(inverse-wrt-to-degrees-of-freedom)">Legendre transform of the capacitance matrix (inverse wrt to degrees of freedom)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Symbolic-lagrangian">Symbolic lagrangian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Symbolic-hamiltonian">Symbolic hamiltonian</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#Replacing-symbolic-circuit-parameters-with-some-numbers">Replacing symbolic circuit parameters with some numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Eigenvalues-and-eigensystem-using-scqubit-tools">Eigenvalues and eigensystem using scqubit tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Eigenvalues-using-circuit-tools">Eigenvalues using circuit tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Transmon-qubit">Transmon qubit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Two-coupled-transmon-qubits">Two coupled transmon qubits</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QCircuit</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Defining circuit topology</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/ipynb/flux_qubit_circuit.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="sa">r</span><span class="s2">&quot;E:\Github\scqubits&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">scqubits</span> <span class="k">as</span> <span class="nn">qubit</span>
+<span class="kn">import</span> <span class="nn">importlib</span> <span class="k">as</span> <span class="nn">imp</span>
+<span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># import networkx as nx</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+</pre></div>
+</div>
+</div>
+<p>The Hamiltonian parameters are</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(E_{J}=\frac{\hbar I_C}{2e}\)</span> Josephson junction critical current,</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_{C}=\frac{e^2}{2C}\)</span> Charge energy,</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_{L}=(\frac{\hbar}{2e})^2\frac{1}{2L}\)</span> Inductor energy.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Phi_x = \frac{2e \Phi}{\hbar}\)</span> External applied flux, in units of radians</p></li>
+</ul>
+<p>where 2e=1 and <span class="math notranslate nohighlight">\(\hbar\)</span>=1 * <span class="math notranslate nohighlight">\(I_C=E_{J}\)</span> , * $C=:nbsphinx-math:<cite>frac{1}{8E_c}</cite> $ * <span class="math notranslate nohighlight">\(L=\frac{1}{2E_{L}}\)</span> Inverse superinductor inductance.</p>
+<div class="section" id="Defining-circuit-topology">
+<h1>Defining circuit topology<a class="headerlink" href="#Defining-circuit-topology" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_qubit</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cg1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;g1&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cg2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;g2&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;CJ1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;CJ2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;CJ3&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;J1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;J2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;J3&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Parametrizing-Hamiltonian">
+<h1>Parametrizing Hamiltonian<a class="headerlink" href="#Parametrizing-Hamiltonian" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ϕ1</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;ϕ_1&#39;</span><span class="p">)</span>
+<span class="n">ϕ2</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;ϕ_2&#39;</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<span class="n">g1</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;g_1&#39;</span><span class="p">)</span>
+<span class="n">g2</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;g_2&#39;</span><span class="p">)</span>
+
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">ϕ1</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">ϕ2</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">g2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Mapping-nodal-phases-to-variables">
+<h1>Mapping nodal phases to variables<a class="headerlink" href="#Mapping-nodal-phases-to-variables" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A*x=b, b is a node vector=[&#39;GND&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;g1&#39;, &#39;g2&#39;]</span>
+<span class="sd">x is a variable vector= [&#39;ϕ_1&#39;, &#39;ϕ_2&#39;, &#39;f&#39;, &#39;g_1&#39;, &#39;g_2&#39;]</span>
+<span class="sd">f - external flux, and should be specified as an additional node and a variable</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">map_nodes_linear</span><span class="p">([</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;g1&#39;</span><span class="p">,</span> <span class="s1">&#39;g2&#39;</span><span class="p">],</span>
+                            <span class="p">[</span><span class="s1">&#39;ϕ_1&#39;</span><span class="p">,</span> <span class="s1">&#39;ϕ_2&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;g_1&#39;</span><span class="p">,</span> <span class="s1">&#39;g_2&#39;</span><span class="p">],</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">],</span>
+                                        <span class="p">[</span><span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">],</span>
+                                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">],</span>
+                                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>  <span class="o">-</span><span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">],</span>
+                                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">1</span><span class="p">,</span>   <span class="mi">0</span><span class="p">],</span>
+                                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">1</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">symbolic_lagrangian</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle - E_{J1} \left(1 - \cos{\left(ϕ_{1} \right)}\right) - E_{J2} \left(1 - \cos{\left(ϕ_{2} \right)}\right) - E_{J3} \left(1 - \cos{\left(f + ϕ_{1} - ϕ_{2} \right)}\right) + \partial_tg_1 \left(\frac{C_{g1} \partial_tg_1}{2} - \frac{C_{g1} \partial_tϕ_1}{2}\right) + \partial_tg_2 \left(\frac{C_{g2} \partial_tg_2}{2} - \frac{C_{g2} \partial_tϕ_2}{2}\right) + \partial_tϕ_1 \left(- C_{J3} \left(- \frac{\partial_tf}{2} + \frac{\partial_tϕ_2}{2}\right) - \frac{C_{g1} \partial_tg_1}{2} + \frac{\partial_tϕ_1 \left(C_{J1} + C_{J3} + C_{g1}\right)}{2}\right) + \partial_tϕ_2 \left(- \frac{C_{g2} \partial_tg_2}{2} + \frac{\partial_tϕ_2 \left(C_{J2} + C_{g2}\right)}{2}\right) + \left(- \partial_tf + \partial_tϕ_2\right) \left(- \frac{C_{J3} \partial_tϕ_1}{2} + C_{J3} \left(- \frac{\partial_tf}{2} + \frac{\partial_tϕ_2}{2}\right)\right)$</div></div>
+</div>
+</div>
+<div class="section" id="Separating-variables-into-external-controls-and-degrees-of-freedom">
+<h1>Separating variables into external controls and degrees of freedom<a class="headerlink" href="#Separating-variables-into-external-controls-and-degrees-of-freedom" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">ϕ1</span><span class="o">.</span><span class="n">create_grid</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># 21 charge states, 2pi wavefunction periodicity</span>
+<span class="n">ϕ2</span><span class="o">.</span><span class="n">create_grid</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># 21 charge states, 2pi wavefunction periodicity</span>
+<span class="n">f</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="mf">0.4</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># external flux: 0.4 quantum, external voltage: 0</span>
+<span class="n">g1</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># external flux: 0 quanta, external voltage: 0</span>
+<span class="n">g2</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># external flux: 0 quanta, external voltage: 0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Printing-symbolic-Hamiltonian-(using-sympy)">
+<h1>Printing symbolic Hamiltonian (using sympy)<a class="headerlink" href="#Printing-symbolic-Hamiltonian-(using-sympy)" title="Permalink to this headline">¶</a></h1>
+<p>This part is a bit ugly, but in principle we could improve it so it uses better notation</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="n">C_g1</span><span class="p">,</span> <span class="n">C_g2</span><span class="p">,</span> <span class="n">C_J1</span><span class="p">,</span> <span class="n">C_J2</span><span class="p">,</span> <span class="n">C_J3</span><span class="p">,</span> <span class="n">E_J1</span><span class="p">,</span> <span class="n">E_J2</span><span class="p">,</span> <span class="n">E_J3</span> <span class="o">=</span> \
+    <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;C_g1, C_g2, C_J1, C_J2, C_J3, E_J1, E_J2, E_J3&#39;</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cg1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">C_g1</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cg2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">C_g2</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;CJ1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">C_J1</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;CJ2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">C_J2</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;CJ3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">C_J3</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J1</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J2</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="capacitance-matrix-in-terms-of-the-nodal-parameterization">
+<h2>capacitance matrix in terms of the nodal parameterization<a class="headerlink" href="#capacitance-matrix-in-terms-of-the-nodal-parameterization" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">capacitance_matrix</span><span class="p">(</span><span class="n">symbolic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}C_{J1} + C_{J2} &amp; 0.0 &amp; - C_{J1} &amp; 0.0 &amp; - C_{J2} &amp; 0.0\\0.0 &amp; C_{g1} &amp; - C_{g1} &amp; 0.0 &amp; 0.0 &amp; 0.0\\- C_{J1} &amp; - C_{g1} &amp; C_{J1} + C_{J3} + C_{g1} &amp; 0.0 &amp; 0.0 &amp; - C_{J3}\\0.0 &amp; 0.0 &amp; 0.0 &amp; C_{g2} &amp; - C_{g2} &amp; 0.0\\- C_{J2} &amp; 0.0 &amp; 0.0 &amp; - C_{g2} &amp; C_{J2} + C_{g2} &amp; 0.0\\0.0 &amp; 0.0 &amp; - C_{J3} &amp; 0.0 &amp; 0.0 &amp; C_{J3}\end{matrix}\right]$</div></div>
+</div>
+</div>
+<div class="section" id="Legendre-transform-of-the-capacitance-matrix-(inverse-wrt-to-degrees-of-freedom)">
+<h2>Legendre transform of the capacitance matrix (inverse wrt to degrees of freedom)<a class="headerlink" href="#Legendre-transform-of-the-capacitance-matrix-(inverse-wrt-to-degrees-of-freedom)" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">capacitance_matrix_legendre_transform</span><span class="p">(</span><span class="n">symbolic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}\frac{1}{C_{J2} + C_{J3} + C_{g1}} &amp; 0 &amp; - \frac{C_{J2} - C_{J3}}{C_{J2} + C_{J3} + C_{g1}} &amp; - \frac{C_{J2} - C_{g1}}{C_{J2} + C_{J3} + C_{g1}} &amp; - \frac{C_{J2}}{C_{J2} + C_{J3} + C_{g1}}\\0 &amp; \frac{1}{C_{J1} + C_{g2}} &amp; - \frac{C_{J1}}{C_{J1} + C_{g2}} &amp; - \frac{C_{J1}}{C_{J1} + C_{g2}} &amp; - \frac{C_{J1} - C_{g2}}{C_{J1} + C_{g2}}\\\frac{- C_{J2} + C_{J3}}{C_{J2} + C_{J3} + C_{g1}} &amp; - \frac{C_{J1}}{C_{J1} + C_{g2}} &amp; \frac{C_{J1}^{2}}{C_{J1} + C_{g2}} + \frac{\left(C_{J2} - C_{J3}\right)^{2}}{C_{J2} + C_{J3} + C_{g1}} &amp; \frac{C_{J1}^{2}}{C_{J1} + C_{g2}} + \frac{\left(C_{J2} - C_{J3}\right) \left(C_{J2} - C_{g1}\right)}{C_{J2} + C_{J3} + C_{g1}} &amp; \frac{C_{J1} \left(C_{J1} - C_{g2}\right)}{C_{J1} + C_{g2}} + \frac{C_{J2} \left(C_{J2} - C_{J3}\right)}{C_{J2} + C_{J3} + C_{g1}}\\\frac{- C_{J2} + C_{g1}}{C_{J2} + C_{J3} + C_{g1}} &amp; - \frac{C_{J1}}{C_{J1} + C_{g2}} &amp; \frac{C_{J1}^{2}}{C_{J1} + C_{g2}} + \frac{\left(C_{J2} - C_{J3}\right) \left(C_{J2} - C_{g1}\right)}{C_{J2} + C_{J3} + C_{g1}} &amp; \frac{C_{J1}^{2}}{C_{J1} + C_{g2}} + \frac{\left(C_{J2} - C_{g1}\right)^{2}}{C_{J2} + C_{J3} + C_{g1}} &amp; \frac{C_{J1} \left(C_{J1} - C_{g2}\right)}{C_{J1} + C_{g2}} + \frac{C_{J2} \left(C_{J2} - C_{g1}\right)}{C_{J2} + C_{J3} + C_{g1}}\\- \frac{C_{J2}}{C_{J2} + C_{J3} + C_{g1}} &amp; \frac{- C_{J1} + C_{g2}}{C_{J1} + C_{g2}} &amp; \frac{C_{J1} \left(C_{J1} - C_{g2}\right)}{C_{J1} + C_{g2}} + \frac{C_{J2} \left(C_{J2} - C_{J3}\right)}{C_{J2} + C_{J3} + C_{g1}} &amp; \frac{C_{J1} \left(C_{J1} - C_{g2}\right)}{C_{J1} + C_{g2}} + \frac{C_{J2} \left(C_{J2} - C_{g1}\right)}{C_{J2} + C_{J3} + C_{g1}} &amp; \frac{C_{J2}^{2}}{C_{J2} + C_{J3} + C_{g1}} + \frac{\left(C_{J1} - C_{g2}\right)^{2}}{C_{J1} + C_{g2}}\end{matrix}\right]$</div></div>
+</div>
+</div>
+<div class="section" id="Symbolic-lagrangian">
+<h2>Symbolic lagrangian<a class="headerlink" href="#Symbolic-lagrangian" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">symbolic_lagrangian</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle - E_{J1} \left(1 - \cos{\left(f + g_{1} + g_{2} + ϕ_{2} \right)}\right) - E_{J2} \left(1 - \cos{\left(f + g_{1} + g_{2} + ϕ_{1} \right)}\right) - E_{J3} \left(1 - \cos{\left(f - ϕ_{1} \right)}\right) + \partial_tf \left(\frac{C_{J3} \partial_tf}{2} - \frac{C_{J3} \partial_tϕ_1}{2}\right) + \partial_tg_1 \left(\frac{C_{g1} \partial_tg_1}{2} - \frac{C_{g1} \partial_tϕ_1}{2}\right) + \partial_tg_2 \left(\frac{C_{g2} \partial_tg_2}{2} - \frac{C_{g2} \partial_tϕ_2}{2}\right) + \partial_tϕ_1 \left(- C_{J1} \left(\frac{\partial_tf}{2} + \frac{\partial_tg_1}{2} + \frac{\partial_tg_2}{2} + \frac{\partial_tϕ_1}{2} + \frac{\partial_tϕ_2}{2}\right) - \frac{C_{J3} \partial_tf}{2} - \frac{C_{g1} \partial_tg_1}{2} + \frac{\partial_tϕ_1 \left(C_{J1} + C_{J3} + C_{g1}\right)}{2}\right) + \partial_tϕ_2 \left(- C_{J2} \left(\frac{\partial_tf}{2} + \frac{\partial_tg_1}{2} + \frac{\partial_tg_2}{2} + \frac{\partial_tϕ_1}{2} + \frac{\partial_tϕ_2}{2}\right) - \frac{C_{g2} \partial_tg_2}{2} + \frac{\partial_tϕ_2 \left(C_{J2} + C_{g2}\right)}{2}\right) + \left(- \frac{C_{J1} \partial_tϕ_1}{2} - \frac{C_{J2} \partial_tϕ_2}{2} + \left(C_{J1} + C_{J2}\right) \left(\frac{\partial_tf}{2} + \frac{\partial_tg_1}{2} + \frac{\partial_tg_2}{2} + \frac{\partial_tϕ_1}{2} + \frac{\partial_tϕ_2}{2}\right)\right) \left(\partial_tf + \partial_tg_1 + \partial_tg_2 + \partial_tϕ_1 + \partial_tϕ_2\right)$</div></div>
+</div>
+</div>
+<div class="section" id="Symbolic-hamiltonian">
+<h2>Symbolic hamiltonian<a class="headerlink" href="#Symbolic-hamiltonian" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">symbolic_hamiltonian</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle E_{J1} \left(1 - \cos{\left(ϕ_{1} \right)}\right) + E_{J2} \left(1 - \cos{\left(ϕ_{2} \right)}\right) + E_{J3} \left(1 - \cos{\left(f + ϕ_{1} - ϕ_{2} \right)}\right) + \frac{\partial_tf \left(\partial_tf \left(C_{J3} \left(- \frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{J3} \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) - C_{J3} \left(\frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{C_{J3} \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right)\right) + \partial_tg_1 \left(\frac{C_{J3}^{2} C_{g1}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{C_{J3} C_{g1} \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) + \partial_tg_2 \left(- \frac{C_{J3}^{2} C_{g2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{J3} C_{g2} \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) - i \partial_{ϕ_1} \left(\frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{C_{J3} \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) - i \partial_{ϕ_2} \left(- \frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{J3} \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right)\right)}{2} + \frac{\partial_tg_1 \left(\frac{C_{J3} C_{g1} C_{g2} \partial_tg_2}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{i C_{J3} C_{g1} \partial_{ϕ_2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{g1}^{2} \partial_tg_1 \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - C_{g1} \partial_tf \left(- \frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{J3} \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) - \frac{i C_{g1} \partial_{ϕ_1} \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right)}{2} + \frac{\partial_tg_2 \left(\frac{C_{J3} C_{g1} C_{g2} \partial_tg_1}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{i C_{J3} C_{g2} \partial_{ϕ_1}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{g2}^{2} \partial_tg_2 \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - C_{g2} \partial_tf \left(\frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{C_{J3} \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) - \frac{i C_{g2} \partial_{ϕ_2} \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right)}{2} - \frac{i \partial_{ϕ_1} \left(\frac{C_{J3} C_{g2} \partial_tg_2}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{i C_{J3} \partial_{ϕ_2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{g1} \partial_tg_1 \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \partial_tf \left(\frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{C_{J3} \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) - \frac{i \partial_{ϕ_1} \left(C_{J2} + C_{J3} + C_{g2}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right)}{2} - \frac{i \partial_{ϕ_2} \left(\frac{C_{J3} C_{g1} \partial_tg_1}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} - \frac{i C_{J3} \partial_{ϕ_1}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{g2} \partial_tg_2 \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \partial_tf \left(- \frac{C_{J3}^{2}}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)} + \frac{C_{J3} \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right) - \frac{i \partial_{ϕ_2} \left(C_{J1} + C_{J3} + C_{g1}\right)}{- C_{J3}^{2} + \left(C_{J1} + C_{J3} + C_{g1}\right) \left(C_{J2} + C_{J3} + C_{g2}\right)}\right)}{2}$</div></div>
+</div>
+</div>
+</div>
+<div class="section" id="Replacing-symbolic-circuit-parameters-with-some-numbers">
+<h1>Replacing symbolic circuit parameters with some numbers<a class="headerlink" href="#Replacing-symbolic-circuit-parameters-with-some-numbers" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">RATIO</span> <span class="o">=</span> <span class="mf">60.0</span>
+<span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">0.8</span>
+
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="n">ALPHA</span><span class="p">)</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;CJ1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">RATIO</span><span class="p">))</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;CJ2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">RATIO</span><span class="p">))</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;CJ3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="mf">1.0</span><span class="o">/</span><span class="n">RATIO</span><span class="o">/</span><span class="n">ALPHA</span><span class="p">))</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cg1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="mf">50.0</span><span class="o">/</span><span class="n">RATIO</span><span class="p">))</span>
+<span class="n">flux_qubit</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cg2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="mf">50.0</span><span class="o">/</span><span class="n">RATIO</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Eigenvalues-and-eigensystem-using-scqubit-tools">
+<h1>Eigenvalues and eigensystem using scqubit tools<a class="headerlink" href="#Eigenvalues-and-eigensystem-using-scqubit-tools" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">plot_potential</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-7-f921d35aefb5&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>flux_qubit<span class="ansi-yellow-intense-fg ansi-bold">.</span>plot_potential<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: &#39;Circuit&#39; object has no attribute &#39;plot_potential&#39;
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span><span class="o">=</span> <span class="n">flux_qubit</span><span class="o">.</span><span class="n">eigensys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">vals</span>
+<span class="c1">#vecs_phase = np.conj(unitary).T@vecs</span>
+<span class="n">vals</span> <span class="o">-</span> <span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.        , 0.26299666, 0.29339598, 0.50146767, 0.55310417,
+       0.57154646])
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Eigenvalues-using-circuit-tools">
+<h1>Eigenvalues using circuit tools<a class="headerlink" href="#Eigenvalues-using-circuit-tools" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">calculate_potentials</span><span class="p">()</span>
+<span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">flux_qubit</span><span class="o">.</span><span class="n">diagonalize_phase</span><span class="p">(</span><span class="n">num_states</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">vals</span><span class="o">-</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.        , 0.26299666, 0.29339598, 0.50146767, 0.55310417,
+       0.57154646])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">vecs</span><span class="p">,</span> <span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">ϕ1</span><span class="o">.</span><span class="n">get_phase_grid</span><span class="p">(),</span> <span class="n">ϕ2</span><span class="o">.</span><span class="n">get_phase_grid</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vecs</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vecs</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.0000000000000142
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_31_1.svg" src="../_images/ipynb_flux_qubit_circuit_31_1.svg" /></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">nodes_grap</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(&#39;g1&#39;, &#39;1&#39;),
+ (&#39;g2&#39;, &#39;2&#39;),
+ (&#39;GND&#39;, &#39;1&#39;),
+ (&#39;GND&#39;, &#39;2&#39;),
+ (&#39;1&#39;, &#39;3&#39;),
+ (&#39;GND&#39;, &#39;1&#39;),
+ (&#39;GND&#39;, &#39;2&#39;),
+ (&#39;1&#39;, &#39;3&#39;)]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">G</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">nodes_graph</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_36_0.svg" src="../_images/ipynb_flux_qubit_circuit_36_0.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_qubit</span><span class="o">.</span><span class="n">wires</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[(&#39;Cg1&#39;, &#39;g1&#39;),
+ (&#39;Cg1&#39;, &#39;1&#39;),
+ (&#39;Cg2&#39;, &#39;g2&#39;),
+ (&#39;Cg2&#39;, &#39;2&#39;),
+ (&#39;CJ1&#39;, &#39;GND&#39;),
+ (&#39;CJ1&#39;, &#39;1&#39;),
+ (&#39;CJ2&#39;, &#39;GND&#39;),
+ (&#39;CJ2&#39;, &#39;2&#39;),
+ (&#39;CJ3&#39;, &#39;1&#39;),
+ (&#39;CJ3&#39;, &#39;3&#39;),
+ (&#39;J1&#39;, &#39;GND&#39;),
+ (&#39;J1&#39;, &#39;1&#39;),
+ (&#39;J2&#39;, &#39;GND&#39;),
+ (&#39;J2&#39;, &#39;2&#39;),
+ (&#39;J3&#39;, &#39;1&#39;),
+ (&#39;J3&#39;, &#39;3&#39;)]
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Transmon-qubit">
+<h1>Transmon qubit<a class="headerlink" href="#Transmon-qubit" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;JJ2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cq&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">phi1</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;φ1&#39;</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<span class="n">ng</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;ng&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">phi1</span><span class="o">.</span><span class="n">create_grid</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">phi1</span><span class="p">)</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">ng</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span><span class="o">.</span><span class="n">map_nodes_linear</span><span class="p">([</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span> <span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">],</span>
+                       <span class="p">[</span><span class="s1">&#39;φ1&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;ng&#39;</span> <span class="p">],</span>
+                       <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="n">C</span><span class="p">,</span> <span class="n">C_J1</span><span class="p">,</span> <span class="n">C_J2</span><span class="p">,</span> <span class="n">E_J1</span><span class="p">,</span> <span class="n">E_J2</span> <span class="o">=</span> \
+    <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;C, C_J1, C_J2, E_J1, E_J2&#39;</span><span class="p">)</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="c1"># Transmon.find_element(&#39;CJ1&#39;).set_capacitance(C_J1)</span>
+<span class="c1"># Transmon.find_element(&#39;CJ2&#39;).set_capacitance(C_J2)/</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J1</span><span class="p">)</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">Transmon</span><span class="o">.</span><span class="n">symbolic_lagrangian</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle - E_{J1} \left(1 - \cos{\left(ng - φ1 \right)}\right) - E_{J2} \left(1 - \cos{\left(f + ng - φ1 \right)}\right) + \partial_tng \left(\frac{C \partial_tng}{2} - \frac{C \partial_tφ1}{2}\right) + \partial_tφ1 \left(- \frac{C \partial_tng}{2} + \frac{C \partial_tφ1}{2}\right)$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">mat</span><span class="o">=</span><span class="n">Transmon</span><span class="o">.</span><span class="n">capacitance_matrix</span><span class="p">(</span><span class="n">symbolic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mat</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}C &amp; - C &amp; 0.0\\- C &amp; C &amp; 0.0\\0.0 &amp; 0.0 &amp; 0.0\end{matrix}\right]$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span><span class="o">.</span><span class="n">capacitance_matrix_legendre_transform</span><span class="p">(</span><span class="n">symbolic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}\frac{1}{C} &amp; 0 &amp; 1\\0 &amp; 0 &amp; 0\\1 &amp; 0 &amp; C\end{matrix}\right]$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">Transmon</span><span class="o">.</span><span class="n">symbolic_lagrangian</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle - E_{J1} \left(1 - \cos{\left(ng - φ1 \right)}\right) - E_{J2} \left(1 - \cos{\left(f + ng - φ1 \right)}\right) + \partial_tng \left(\frac{C \partial_tng}{2} - \frac{C \partial_tφ1}{2}\right) + \partial_tφ1 \left(- \frac{C \partial_tng}{2} + \frac{C \partial_tφ1}{2}\right)$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">Transmon</span><span class="o">.</span><span class="n">symbolic_hamiltonian</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle E_{J1} \left(1 - \cos{\left(ng - φ1 \right)}\right) + E_{J2} \left(1 - \cos{\left(f + ng - φ1 \right)}\right) + \frac{\partial_tng \left(C \partial_tng - i \partial_{φ1}\right)}{2} - \frac{i \partial_{φ1} \left(\partial_tng - \frac{i \partial_{φ1}}{C}\right)}{2}$</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tqdm</span> <span class="k">as</span> <span class="nn">tqdm</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">number of states should be less than grid discretiation</span>
+<span class="sd">create_grid(num,period)</span>
+<span class="sd">num-1&gt;num_states</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">voltage_steps</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">flux_steps</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">num_states</span><span class="o">=</span><span class="mi">30</span>
+<span class="c1"># energies = np.zeros((voltage_steps,num_states), dtype=np.float)</span>
+<span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">flux_steps</span><span class="p">,</span><span class="n">num_states</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">Ej1</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">Ej2</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">Ec</span> <span class="o">=</span> <span class="mf">0.200</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">Ej1</span><span class="p">)</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">Ej2</span><span class="p">)</span>
+<span class="n">Transmon</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">Ec</span><span class="p">))</span>
+<span class="n">f_value</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ng_value</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># for ng_id, ng_value in tqdm.tqdm(enumerate(np.linspace(-2, 2, voltage_steps)/8*Ec)):</span>
+<span class="k">for</span> <span class="n">f_id</span><span class="p">,</span> <span class="n">f_value</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">flux_steps</span><span class="p">))):</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="n">f_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">ng</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ng_value</span><span class="p">)</span>
+    <span class="n">Transmon</span><span class="o">.</span><span class="n">calculate_potentials</span><span class="p">()</span>
+    <span class="p">[</span><span class="n">eigenenergies</span><span class="p">,</span> <span class="n">eigenfunctions</span><span class="p">]</span> <span class="o">=</span> <span class="n">Transmon</span><span class="o">.</span><span class="n">diagonalize_phase</span><span class="p">(</span><span class="n">num_states</span><span class="o">=</span><span class="n">num_states</span><span class="p">)</span>
+<span class="c1">#     energies[ng_id, :] = eigenenergies</span>
+    <span class="n">energies</span><span class="p">[</span><span class="n">f_id</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">eigenenergies</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+0it [00:00, ?it/s]C:\Users\Ivan\Anaconda3\lib\site-packages\ipykernel_launcher.py:22: ComplexWarning: Casting complex values to real discards the imaginary part
+100it [00:02, 47.57it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="p">(</span><span class="n">Ej1</span><span class="o">+</span><span class="n">Ej2</span><span class="p">)</span><span class="o">*</span><span class="n">Ec</span><span class="p">)</span><span class="o">-</span><span class="n">Ec</span><span class="p">),(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="p">(</span><span class="n">Ej1</span><span class="o">-</span><span class="n">Ej2</span><span class="p">)</span><span class="o">*</span><span class="n">Ec</span><span class="p">)</span><span class="o">-</span><span class="n">Ec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(5.45685424949238, 3.8)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="p">(</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.22323617731972875
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="p">(</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x2539e82ec50&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_53_1.svg" src="../_images/ipynb_flux_qubit_circuit_53_1.svg" /></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># np.mean((energies[:,1]-energies[:,0]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x253a02de2e8&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_55_1.svg" src="../_images/ipynb_flux_qubit_circuit_55_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energies</span><span class="p">[:,:</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x253a02931d0&gt;,
+ &lt;matplotlib.lines.Line2D at 0x253a02932e8&gt;,
+ &lt;matplotlib.lines.Line2D at 0x253a0293438&gt;,
+ &lt;matplotlib.lines.Line2D at 0x253a0293588&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_56_1.svg" src="../_images/ipynb_flux_qubit_circuit_56_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[184]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">variable_type</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[184]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;parameter&#39;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Tr</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-3-b9446c6cb241&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>Tr
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;Tr&#39; is not defined
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span><span class="o">.</span><span class="n">capacitance_matrix_variables</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-18-eacf56aca614&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>Transmon<span class="ansi-yellow-intense-fg ansi-bold">.</span>capacitance_matrix_variables<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-green-intense-fg ansi-bold">False</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">E:\Github\scqubits\scqubits\core\circuit.py</span> in <span class="ansi-cyan-fg">capacitance_matrix_variables</span><span class="ansi-blue-intense-fg ansi-bold">(self, symbolic)</span>
+<span class="ansi-green-fg">    465</span>             C <span class="ansi-yellow-intense-fg ansi-bold">=</span> sympy<span class="ansi-yellow-intense-fg ansi-bold">.</span>Matrix<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">[</span>sympy<span class="ansi-yellow-intense-fg ansi-bold">.</span>nsimplify<span class="ansi-yellow-intense-fg ansi-bold">(</span>sympy<span class="ansi-yellow-intense-fg ansi-bold">.</span>ratsimp<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">for</span> x <span class="ansi-green-intense-fg ansi-bold">in</span> C<span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>reshape<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span><span class="ansi-yellow-intense-fg ansi-bold">(</span>C<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    466</span>         <span class="ansi-green-intense-fg ansi-bold">else</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 467</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>C <span class="ansi-yellow-intense-fg ansi-bold">=</span> np<span class="ansi-yellow-intense-fg ansi-bold">.</span>einsum<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;ji,jk,kl-&gt;il&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear_coordinate_transform<span class="ansi-yellow-intense-fg ansi-bold">,</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">(</span>symbolic<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear_coordinate_transform<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    468</span>         <span class="ansi-green-intense-fg ansi-bold">return</span> C
+<span class="ansi-green-fg">    469</span>
+
+<span class="ansi-green-intense-fg ansi-bold">E:\Github\scqubits\scqubits\core\circuit.py</span> in <span class="ansi-cyan-fg">capacitance_matrix</span><span class="ansi-blue-intense-fg ansi-bold">(self, symbolic)</span>
+<span class="ansi-green-fg">    450</span>                     raise Exception(&#39;VariableError&#39;,
+<span class="ansi-green-fg">    451</span>                                     &#39;Wrong number of ports on capacitance, expected 2, got {0}&#39;.format(len(element_node_ids)))
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 452</span><span class="ansi-yellow-intense-fg ansi-bold">                 </span>capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">[</span>element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">+=</span> element<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_capacitance<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    453</span>                 capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">[</span>element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">+=</span> <span class="ansi-yellow-intense-fg ansi-bold">-</span>element<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_capacitance<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    454</span>                 capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">[</span>element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">+=</span> <span class="ansi-yellow-intense-fg ansi-bold">-</span>element<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_capacitance<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\sympy\core\expr.py</span> in <span class="ansi-cyan-fg">__float__</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">    325</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> result<span class="ansi-yellow-intense-fg ansi-bold">.</span>is_number <span class="ansi-green-intense-fg ansi-bold">and</span> result<span class="ansi-yellow-intense-fg ansi-bold">.</span>as_real_imag<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    326</span>             <span class="ansi-green-intense-fg ansi-bold">raise</span> TypeError<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;can&#39;t convert complex to float&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 327</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">raise</span> TypeError<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;can&#39;t convert expression to float&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    328</span>
+<span class="ansi-green-fg">    329</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> __complex__<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: can&#39;t convert expression to float
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">inverted_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">variable_id</span> <span class="k">for</span> <span class="n">variable_id</span><span class="p">,</span> <span class="n">variable</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Transmon</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span> <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">variable_type</span><span class="o">==</span><span class="s1">&#39;variable&#39;</span> <span class="p">]</span>
+<span class="n">noninverted_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">variable_id</span> <span class="k">for</span> <span class="n">variable_id</span><span class="p">,</span> <span class="n">variable</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Transmon</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span> <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">variable_type</span><span class="o">==</span><span class="s1">&#39;parameter&#39;</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">inverted_indices</span><span class="p">,</span><span class="n">noninverted_indices</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+([0], [1, 2])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span><span class="o">.</span><span class="n">capacitance_matrix_variables</span><span class="p">(</span><span class="kc">False</span><span class="p">)[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">inverted_indices</span><span class="p">,</span> <span class="n">inverted_indices</span><span class="p">))]</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-21-50fb83956d45&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>Transmon<span class="ansi-yellow-intense-fg ansi-bold">.</span>capacitance_matrix_variables<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-green-intense-fg ansi-bold">False</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">[</span>tuple<span class="ansi-yellow-intense-fg ansi-bold">(</span>np<span class="ansi-yellow-intense-fg ansi-bold">.</span>meshgrid<span class="ansi-yellow-intense-fg ansi-bold">(</span>inverted_indices<span class="ansi-yellow-intense-fg ansi-bold">,</span> inverted_indices<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>T
+
+<span class="ansi-green-intense-fg ansi-bold">E:\Github\scqubits\scqubits\core\circuit.py</span> in <span class="ansi-cyan-fg">capacitance_matrix_variables</span><span class="ansi-blue-intense-fg ansi-bold">(self, symbolic)</span>
+<span class="ansi-green-fg">    465</span>             C <span class="ansi-yellow-intense-fg ansi-bold">=</span> sympy<span class="ansi-yellow-intense-fg ansi-bold">.</span>Matrix<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">[</span>sympy<span class="ansi-yellow-intense-fg ansi-bold">.</span>nsimplify<span class="ansi-yellow-intense-fg ansi-bold">(</span>sympy<span class="ansi-yellow-intense-fg ansi-bold">.</span>ratsimp<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">for</span> x <span class="ansi-green-intense-fg ansi-bold">in</span> C<span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>reshape<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span><span class="ansi-yellow-intense-fg ansi-bold">(</span>C<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    466</span>         <span class="ansi-green-intense-fg ansi-bold">else</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 467</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>C <span class="ansi-yellow-intense-fg ansi-bold">=</span> np<span class="ansi-yellow-intense-fg ansi-bold">.</span>einsum<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;ji,jk,kl-&gt;il&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear_coordinate_transform<span class="ansi-yellow-intense-fg ansi-bold">,</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">(</span>symbolic<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear_coordinate_transform<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    468</span>         <span class="ansi-green-intense-fg ansi-bold">return</span> C
+<span class="ansi-green-fg">    469</span>
+
+<span class="ansi-green-intense-fg ansi-bold">E:\Github\scqubits\scqubits\core\circuit.py</span> in <span class="ansi-cyan-fg">capacitance_matrix</span><span class="ansi-blue-intense-fg ansi-bold">(self, symbolic)</span>
+<span class="ansi-green-fg">    450</span>                     raise Exception(&#39;VariableError&#39;,
+<span class="ansi-green-fg">    451</span>                                     &#39;Wrong number of ports on capacitance, expected 2, got {0}&#39;.format(len(element_node_ids)))
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 452</span><span class="ansi-yellow-intense-fg ansi-bold">                 </span>capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">[</span>element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">+=</span> element<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_capacitance<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    453</span>                 capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">[</span>element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">+=</span> <span class="ansi-yellow-intense-fg ansi-bold">-</span>element<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_capacitance<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    454</span>                 capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">[</span>element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> element_node_ids<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">+=</span> <span class="ansi-yellow-intense-fg ansi-bold">-</span>element<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_capacitance<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\sympy\core\expr.py</span> in <span class="ansi-cyan-fg">__float__</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">    325</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> result<span class="ansi-yellow-intense-fg ansi-bold">.</span>is_number <span class="ansi-green-intense-fg ansi-bold">and</span> result<span class="ansi-yellow-intense-fg ansi-bold">.</span>as_real_imag<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    326</span>             <span class="ansi-green-intense-fg ansi-bold">raise</span> TypeError<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;can&#39;t convert complex to float&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 327</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">raise</span> TypeError<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;can&#39;t convert expression to float&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    328</span>
+<span class="ansi-green-fg">    329</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> __complex__<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: can&#39;t convert expression to float
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ji,jk,kl-&gt;il&#39;</span><span class="p">,</span> <span class="n">Transmon</span><span class="o">.</span><span class="n">linear_coordinate_transform</span><span class="p">,</span><span class="n">Transmon</span><span class="o">.</span><span class="n">capacitance_matrix</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span><span class="n">Transmon</span><span class="o">.</span><span class="n">linear_coordinate_transform</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-26-3c2a5a6f5634&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>C <span class="ansi-yellow-intense-fg ansi-bold">=</span> np<span class="ansi-yellow-intense-fg ansi-bold">.</span>einsum<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;ji,jk,kl-&gt;il&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> Transmon<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear_coordinate_transform<span class="ansi-yellow-intense-fg ansi-bold">,</span>Transmon<span class="ansi-yellow-intense-fg ansi-bold">.</span>capacitance_matrix<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-green-intense-fg ansi-bold">True</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>Transmon<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear_coordinate_transform<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\numpy\core\einsumfunc.py</span> in <span class="ansi-cyan-fg">einsum</span><span class="ansi-blue-intense-fg ansi-bold">(*operands, **kwargs)</span>
+<span class="ansi-green-fg">   1344</span>     <span class="ansi-red-intense-fg ansi-bold"># If no optimization, run pure einsum</span>
+<span class="ansi-green-fg">   1345</span>     <span class="ansi-green-intense-fg ansi-bold">if</span> optimize_arg <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">False</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">-&gt; 1346</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">return</span> c_einsum<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>operands<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">**</span>kwargs<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">   1347</span>
+<span class="ansi-green-fg">   1348</span>     valid_einsum_kwargs <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-blue-intense-fg ansi-bold">&#39;out&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;dtype&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;order&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;casting&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
+
+<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: invalid data type for einsum
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span><span class="o">.</span><span class="n">linear_coordinate_transform</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[0, 0, 1],
+       [1, 0, 0],
+       [0, 1, 1]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmon</span><span class="o">.</span><span class="n">capacitance_matrix</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}C &amp; - C &amp; 0.0\\- C &amp; C &amp; 0.0\\0.0 &amp; 0.0 &amp; 0.0\end{matrix}\right]$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">Transmon</span><span class="o">.</span><span class="n">linear_coordinate_transform</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">Transmon</span><span class="o">.</span><span class="n">capacitance_matrix</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span><span class="o">*</span><span class="n">Transmon</span><span class="o">.</span><span class="n">linear_coordinate_transform</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">ratsimp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">C</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Matrix([[C, 0, -C], [0, 0, 0], [-C, 0, C]])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">C</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}C &amp; 0 &amp; - C\\0 &amp; 0 &amp; 0\\- C &amp; 0 &amp; C\end{matrix}\right]$</div></div>
+</div>
+</div>
+<div class="section" id="Two-coupled-transmon-qubits">
+<h1>Two coupled transmon qubits<a class="headerlink" href="#Two-coupled-transmon-qubits" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmons</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cq1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;J1q1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;J2q1&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">])</span>
+
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cq2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;J1q2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">JosephsonJunction</span><span class="p">(</span><span class="s1">&#39;J2q2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">])</span>
+
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">qubit</span><span class="o">.</span><span class="n">Capacitance</span><span class="p">(</span><span class="s1">&#39;Cc&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">phi1</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;φ1&#39;</span><span class="p">)</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;f1&#39;</span><span class="p">)</span>
+<span class="n">phi2</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;φ2&#39;</span><span class="p">)</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s1">&#39;f2&#39;</span><span class="p">)</span>
+<span class="n">phi1</span><span class="o">.</span><span class="n">create_grid</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">phi2</span><span class="o">.</span><span class="n">create_grid</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmons</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">phi1</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">phi2</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Transmons</span><span class="o">.</span><span class="n">map_nodes_linear</span><span class="p">(</span><span class="n">node_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GND&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span> <span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="s1">&#39;3&#39;</span><span class="p">,</span><span class="s1">&#39;4&#39;</span><span class="p">],</span>
+                           <span class="n">variable_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;φ1&#39;</span><span class="p">,</span><span class="s1">&#39;φ2&#39;</span><span class="p">,</span> <span class="s1">&#39;f1&#39;</span><span class="p">,</span><span class="s1">&#39;f2&#39;</span> <span class="p">],</span>
+                           <span class="n">coefficients</span> <span class="o">=</span>
+                           <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sympy</span>
+<span class="n">Cq1</span><span class="p">,</span> <span class="n">E_J1q1</span><span class="p">,</span> <span class="n">E_J2q1</span><span class="p">,</span> <span class="n">Cq2</span><span class="p">,</span> <span class="n">E_J1q2</span><span class="p">,</span> <span class="n">E_J2q2</span><span class="p">,</span><span class="n">Cc</span><span class="p">,</span><span class="n">L</span> <span class="o">=</span> \
+    <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;Cq1,E_J1q1, E_J2q1,Cq2,E_J1q2, E_J2q2,Cc,L&#39;</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cq1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">Cq1</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1q1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J1q1</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2q1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J2q1</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cq2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">Cq2</span><span class="p">)</span>
+<span class="c1"># Transmons.find_element(&#39;L&#39;).set_critical_current(L)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="n">Cc</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1q2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J1q2</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2q2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">E_J2q2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">Transmons</span><span class="o">.</span><span class="n">capacitance_matrix</span><span class="p">(</span><span class="n">symbolic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}Cq_{1} + Cq_{2} &amp; - Cq_{1} &amp; 0 &amp; - Cq_{2} &amp; 0\\- Cq_{1} &amp; Cc + Cq_{1} &amp; 0 &amp; - Cc &amp; 0\\0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\\- Cq_{2} &amp; - Cc &amp; 0 &amp; Cc + Cq_{2} &amp; 0\\0 &amp; 0 &amp; 0 &amp; 0 &amp; 0\end{matrix}\right]$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">Transmons</span><span class="o">.</span><span class="n">capacitance_matrix_legendre_transform</span><span class="p">(</span><span class="n">symbolic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle \left[\begin{matrix}\frac{Cc + Cq_{2}}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}} &amp; 0 &amp; \frac{Cc}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}} &amp; 0\\0 &amp; 0 &amp; 0 &amp; 0\\\frac{Cc}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}} &amp; 0 &amp; \frac{Cc + Cq_{1}}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}} &amp; 0\\0 &amp; 0 &amp; 0 &amp; 0\end{matrix}\right]$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">Transmons</span><span class="o">.</span><span class="n">symbolic_lagrangian</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle - E_{J1q1} \left(1 - \cos{\left(φ1 \right)}\right) - E_{J1q2} \left(1 - \cos{\left(φ2 \right)}\right) - E_{J2q1} \left(1 - \cos{\left(f_{1} + φ1 \right)}\right) - E_{J2q2} \left(1 - \cos{\left(f_{2} + φ2 \right)}\right) + \partial_tφ1 \left(- \frac{Cc \partial_tφ2}{2} + \frac{\partial_tφ1 \left(Cc + Cq_{1}\right)}{2}\right) + \partial_tφ2 \left(- \frac{Cc \partial_tφ1}{2} + \frac{\partial_tφ2 \left(Cc + Cq_{2}\right)}{2}\right)$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sympy</span><span class="o">.</span><span class="n">nsimplify</span><span class="p">(</span><span class="n">Transmons</span><span class="o">.</span><span class="n">symbolic_hamiltonian</span><span class="p">()</span><span class="o">.</span><span class="n">xreplace</span><span class="p">({</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;φ1&#39;</span><span class="p">):</span><span class="mi">0</span><span class="p">}))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle E_{J1q2} \left(1 - \cos{\left(φ2 \right)}\right) + E_{J2q1} \left(1 - \cos{\left(f_{1} \right)}\right) + E_{J2q2} \left(1 - \cos{\left(f_{2} + φ2 \right)}\right) - \frac{i \partial_{φ1} \left(- \frac{i Cc \partial_{φ2}}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}} - \frac{i \partial_{φ1} \left(Cc + Cq_{2}\right)}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}}\right)}{2} - \frac{i \partial_{φ2} \left(- \frac{i Cc \partial_{φ1}}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}} - \frac{i \partial_{φ2} \left(Cc + Cq_{1}\right)}{Cc Cq_{1} + Cc Cq_{2} + Cq_{1} Cq_{2}}\right)}{2}$</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;module &#39;scqubits&#39; from &#39;E:\\Github\\scqubits\\scqubits\\__init__.py&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">flux_steps1</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">flux_steps2</span><span class="o">=</span><span class="mi">10</span>
+<span class="n">num_states</span><span class="o">=</span><span class="mi">6</span>
+
+<span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">flux_steps1</span><span class="p">,</span><span class="n">flux_steps2</span><span class="p">,</span><span class="n">num_states</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">Ej1q1</span> <span class="o">=</span> <span class="mf">40e9</span>
+<span class="n">Ej2q1</span> <span class="o">=</span> <span class="mf">5e9</span>
+<span class="n">Ej1q2</span> <span class="o">=</span> <span class="mf">12e9</span>
+<span class="n">Ej2q2</span> <span class="o">=</span> <span class="mf">4e9</span>
+<span class="n">Ecq1</span> <span class="o">=</span> <span class="mf">0.2e9</span>
+<span class="n">Ecq2</span> <span class="o">=</span> <span class="mf">0.2e9</span>
+<span class="n">Ec</span><span class="o">=</span><span class="mf">10e6</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cq1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">Ecq1</span><span class="p">))</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1q1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">Ej1q1</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2q1&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">Ej2q1</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cq2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">Ecq2</span><span class="p">))</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;Cc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_capacitance</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">Ec</span><span class="p">))</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J1q2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">Ej1q2</span><span class="p">)</span>
+<span class="n">Transmons</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="s1">&#39;J2q2&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_critical_current</span><span class="p">(</span><span class="n">Ej2q2</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">f_id1</span><span class="p">,</span> <span class="n">f1_value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">flux_steps1</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">f_id2</span><span class="p">,</span> <span class="n">f2_value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">flux_steps2</span><span class="p">)):</span>
+        <span class="n">f1</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="n">f1_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">f2</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="n">f2_value</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">Transmons</span><span class="o">.</span><span class="n">calculate_potentials</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">eigenenergies</span><span class="p">,</span> <span class="n">eigenfunctions</span><span class="p">]</span> <span class="o">=</span> <span class="n">Transmons</span><span class="o">.</span><span class="n">diagonalize_phase</span><span class="p">(</span><span class="n">num_states</span><span class="o">=</span><span class="n">num_states</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+        <span class="n">energies</span><span class="p">[</span><span class="n">f_id1</span><span class="p">,</span><span class="n">f_id2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">eigenenergies</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+C:\Users\Ivan\Anaconda3\lib\site-packages\ipykernel_launcher.py:28: ComplexWarning: Casting complex values to real discards the imaginary part
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="c1"># plt.plot(energies[:,0,:]/1e9)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:]</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x169b506e278&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b506e390&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b506e4e0&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b506e630&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b506e780&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b506e8d0&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_81_1.svg" src="../_images/ipynb_flux_qubit_circuit_81_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:]</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x169b50d4be0&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b50d4cf8&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b50d4e48&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b50d4f98&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b50e0128&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b50e0278&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_82_1.svg" src="../_images/ipynb_flux_qubit_circuit_82_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:]</span><span class="o">/</span><span class="mf">1e9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x169b4d59dd8&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b4d9fa58&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b4d9fba8&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b4d9fcf8&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b4d9fe48&gt;,
+ &lt;matplotlib.lines.Line2D at 0x169b4d9ff98&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_83_1.svg" src="../_images/ipynb_flux_qubit_circuit_83_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="p">(</span><span class="n">Ej1q1</span><span class="o">-</span><span class="n">Ej2q1</span><span class="p">)</span><span class="o">*</span><span class="n">Ecq1</span><span class="p">)</span><span class="o">-</span><span class="n">Ecq1</span><span class="p">),(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="p">(</span><span class="n">Ej1q2</span><span class="o">-</span><span class="n">Ej2q2</span><span class="p">)</span><span class="o">*</span><span class="n">Ecq2</span><span class="p">)</span><span class="o">-</span><span class="n">Ecq2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(2628427124.74619, 3975235392.6806064)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[106]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([2.76219444e-06, 3.90697674e+07, 3.90697674e+07, 1.56279070e+08,
+       1.56279070e+08, 3.51627907e+08, 3.51627907e+08, 4.27906977e+08,
+       4.27906977e+08, 4.29767442e+08])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([39069767.44185367, 39069767.4418956 , 39069767.44189874,
+       39069767.44186108, 39069767.4418245 , 39069767.44188809,
+       39069767.44189385, 39069767.44186915, 39069767.441887  ,
+       39069767.4418683 ])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">energies</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([3.39373946e-05, 3.52561474e-05, 4.01884317e-05, 1.84923410e-05,
+       5.73992729e-05, 2.04890966e-06, 7.54743814e-06, 2.74181366e-06,
+       4.32133675e-06, 2.23219395e-05])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([8.79816185e-06, 7.99840067e+08, 7.99840067e+08, 8.79806481e+08,
+       8.79806481e+08, 1.67929470e+09, 1.67929470e+09, 1.67999840e+09,
+       1.67999840e+09, 3.19936027e+09])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([5.66575447e-06, 7.99840067e+08, 7.99840067e+08, 8.79806481e+08,
+       8.79806481e+08, 1.67929470e+09, 1.67929470e+09, 1.67999840e+09,
+       1.67999840e+09, 3.19936027e+09])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energies</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;matplotlib.lines.Line2D at 0x1fdc355b3c8&gt;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/ipynb_flux_qubit_circuit_90_1.svg" src="../_images/ipynb_flux_qubit_circuit_90_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span><span class="o">-</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([-1.96407225e-14, -3.39728246e-14, -3.14193116e-14, -7.03881398e-14,
+       -3.15303339e-14, -6.90558721e-14, -4.21884749e-14, -5.06261699e-14,
+       -5.66213743e-14, -4.17443857e-14])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([2.56540418e-15, 8.00000000e-01, 8.00000000e-01, 8.80000000e-01,
+       8.80000000e-01, 1.68000000e+00, 1.68000000e+00, 1.68000000e+00,
+       1.68000000e+00, 3.20000000e+00])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../guide/definitions.html" class="btn btn-neutral float-left" title="The Hamiltonian parameter definitions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

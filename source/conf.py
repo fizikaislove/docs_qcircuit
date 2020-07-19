@@ -1,7 +1,6 @@
 import sys, os
 import sphinx_rtd_theme
 
-
 from datetime import datetime
 sys.path.insert(0, os.path.abspath('../'))
 # print(format(os.path.abspath('../')))
@@ -12,7 +11,9 @@ sys.path.insert(0, os.path.abspath('../'))
 
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary'
+    'sphinx.ext.autosummary',
+    'nbsphinx',
+    'sphinx.ext.mathjax'
               ]
 # autosummary_generate = False
 # autosummary = []

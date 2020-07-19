@@ -31,14 +31,16 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/collapse_admonitions.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Defining circuit topology" href="../ipynb/flux_qubit_circuit.html" />
     <link rel="prev" title="Functions" href="function_specification.html" /> 
 </head>
 
@@ -93,6 +95,16 @@
 <li class="toctree-l1"><a class="reference internal" href="examples_of_usage.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="function_specification.html">Functions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">The Hamiltonian parameter definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html">Defining circuit topology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Parametrizing-Hamiltonian">Parametrizing Hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Mapping-nodal-phases-to-variables">Mapping nodal phases to variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Separating-variables-into-external-controls-and-degrees-of-freedom">Separating variables into external controls and degrees of freedom</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Printing-symbolic-Hamiltonian-(using-sympy)">Printing symbolic Hamiltonian (using sympy)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Replacing-symbolic-circuit-parameters-with-some-numbers">Replacing symbolic circuit parameters with some numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Eigenvalues-and-eigensystem-using-scqubit-tools">Eigenvalues and eigensystem using scqubit tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Eigenvalues-using-circuit-tools">Eigenvalues using circuit tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Transmon-qubit">Transmon qubit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ipynb/flux_qubit_circuit.html#Two-coupled-transmon-qubits">Two coupled transmon qubits</a></li>
 </ul>
 
             
@@ -158,7 +170,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="the-hamiltonian-parameter-definitions">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="the-hamiltonian-parameter-definitions">
 <h1>The Hamiltonian parameter definitions<a class="headerlink" href="#the-hamiltonian-parameter-definitions" title="Permalink to this headline">¶</a></h1>
 <p>Here you can read an explanation of the Hamiltonian parameter definitions in the Circuit library.</p>
 <div class="math notranslate nohighlight">
@@ -182,6 +218,8 @@ E_{L}&amp;=(\frac{\hbar}{2e})^2\frac{1}{2L} \text{  is an inductor energy,}\\
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../ipynb/flux_qubit_circuit.html" class="btn btn-neutral float-right" title="Defining circuit topology" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="function_specification.html" class="btn btn-neutral float-left" title="Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
