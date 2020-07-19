@@ -1,7 +1,7 @@
 Transmon qubit
 ==========================
 
-This is the first page of QCircuit usage explanation. 
+This is the first page of QCircuit usage explanation.
 
 
 .. toctree::

@@ -28,7 +28,7 @@ author = 'Ilia Besedin'
 version = '1'
 release = '13072020'
 
-exclude_patterns = ['_build']
+exclude_patterns = ['_build','**.ipynb_checkpoints']
 add_function_parentheses = False
 autosummary_generate = True
 
