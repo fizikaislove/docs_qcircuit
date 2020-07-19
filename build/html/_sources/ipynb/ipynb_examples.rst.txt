@@ -8,4 +8,4 @@ code for superconducting qubits development.
 .. toctree::
    :maxdepth: 1
 
-   flux_qubit_circuit
+   flux_qubit
