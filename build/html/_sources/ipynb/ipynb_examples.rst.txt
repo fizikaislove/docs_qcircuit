@@ -6,6 +6,6 @@ code for superconducting qubits development.
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   flux_qubit
+   transmon_qubit

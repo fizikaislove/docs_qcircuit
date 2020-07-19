@@ -1,11 +1,10 @@
-Overview
+Transmon qubit
 ==========================
 
-This is the first page of QCircuit project documentation. The python based
-code for superconducting qubits development.
+This is the first page of QCircuit usage explanation. 
 
 
 .. toctree::
    :maxdepth: 2
 
-   flux_qubit
+   transmon_qubit
