@@ -5,8 +5,8 @@
 import numpy as np
 import sympy
 from scipy.sparse.linalg import *
-# from abc import ABCMeta
-# from abc import abstractmethod
+from abc import ABCMeta
+from abc import abstractmethod
 #
 # import scqubits.core.constants as constants
 # import scqubits.core.descriptors as descriptors
@@ -44,11 +44,11 @@ class Variable:
             Creates a discrete grid for wavefunction variables.
 
             :param nodeNo: number of discrete points on the grid.
-            :type nodeNo: int.
+            :type nodeNo: int
             :param phase_periods: number of :math:`2\pi` intervals in the grid.
-            :type phase_periods: float.
+            :type phase_periods: float
             :param centre: additional flux offset.
-            :type centre: float.
+            :type centre: float
         """
         self.variable_type = 'variable'
         min_node = np.round(-nodeNo/2)
